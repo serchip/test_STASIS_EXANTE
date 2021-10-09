@@ -1,0 +1,16 @@
+{% extends "shop/base.html" %}
+
+{% block title %}
+  Спасибо за заказ
+{% endblock %}
+
+{% block content %}
+  <h1>Спасибо за заказ</h1>
+  <p>Идентификатор вашего заказа: {{ order.id }}</p>
+  {% if username %}
+    <h1>Данные для авторизации</h1>
+    <p>логин:{{ username }}</p>
+    <p>пароль:{{ password }}</p>
+    <p><a href="{% url 'admin:index' %}">Вход</a></p>
+  {% endif %}
+{% endblock %}

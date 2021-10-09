@@ -1,0 +1,6 @@
+-r prod.txt
+ipython
+pytest
+
+# Linting
+requests

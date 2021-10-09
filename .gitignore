@@ -1,0 +1,16 @@
+docker-compose.override.yml
+env
+tags
+*.sqlite3
+.env
+.idea/
+.vscode/
+*.code-workspace
+__pycache__/
+postgres-data/
+node_modules/
+docs/build/
+package-lock.json
+.DS_Store
+.pyc
+.pytest_cache

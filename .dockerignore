@@ -1,0 +1,4 @@
+.helm
+.git
+.gitlab-ci.yml
+.gitignore

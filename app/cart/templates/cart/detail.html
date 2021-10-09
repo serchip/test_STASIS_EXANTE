@@ -1,0 +1,69 @@
+{% extends "shop/base.html" %}
+
+{% block title %}
+  Ваша корзина товаров
+{% endblock %}
+
+{% block content %}
+  <h1>Ваша корзина товаров</h1>
+  <table class="table-cart" border="1px">
+    <thead>
+      <tr>
+        <th>Изображение</th>
+        <th>Продукт</th>
+        <th>Количество</th>
+        <th>Удалить</th>
+        <th>Цена</th>
+        <th>Полная цена</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart %}
+        {% with product=item.product %}
+          <tr>
+            <td class="cart-img">
+              <a href="{{ product.get_absolute_url }}">
+                <img src="{{ product.image.url }}" class="img-responsive" />
+              </a>
+            </td>
+            <td>{{ product.name }}</td>
+            <td>
+              <form action="{% url "cart:CartAdd" product.id %}" method="post" class="add">
+                {{ item.update_quantity_form.quantity }}
+                {{ item.update_quantity_form.update }}
+                {% csrf_token %}
+                <input type="submit" value="Обновить">
+              </form>
+            </td>
+            <td><a href="{% url "cart:CartRemove" product.id %}">Удалить</a></td>
+            <td class="num">{{ item.price }} ye.</td>
+            <td class="num">{{ item.total_price }} ye.</td>
+          </tr>
+        {% endwith %}
+      {% endfor %}
+        {% if cart.cupon %}
+          <tr class="subtotal">
+            <td>Сумма без скидки</td>
+            <td colspan="4"></td>
+            <td>{{ cart.get_total_price }}</td>
+          </tr>
+          <tr>
+            <td>
+              "{{ cart.cupon.code }}" купон на ({{ cart.cupon.discount }} % ниже)
+            </td>
+            <td colspan="4"></td>
+            <td class="num discount">- {{ cart.get_discount|floatformat:"2" }} ye.</td>
+          </tr>
+        {% endif %}
+        <tr class="total">
+          <td>Всего</td>
+          <td colspan="4"></td>
+          <td class="num">{{ cart.get_total_price_after_discount|floatformat:"2" }} ye.</td>
+        </tr>
+    </tbody>
+  </table>
+  <p class="text-right">
+    <a href="{% url "shop:ProductList"%}" class="btn btn-light">Продолжить Шопинг</a>
+    <a href="{% url "orders:OrderCreate" %}" class="btn">Оформить заказ</a>
+  </p>
+{% endblock %}
